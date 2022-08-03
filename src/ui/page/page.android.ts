@@ -237,12 +237,14 @@ export default class PageAndroid<TEvent extends string = PageEvents, TNative = a
   }
   private setCallbacks() {
     this.nativeObject?.setCallbacks({
-      onCreate: () => {},
+      onCreate: () => { },
       onCreateView: () => {
         const layoutDirection = this.nativeObject.getResources().getConfiguration().getLayoutDirection();
         this.pageLayoutContainer.setLayoutDirection(layoutDirection);
-        this.nativeObject.setHasOptionsMenu(true);
-        AndroidConfig.activity.setSupportActionBar(this.toolbar);
+        if (!this.isSwipeViewPage) {
+          this.nativeObject.setHasOptionsMenu(true);
+          AndroidConfig.activity.setSupportActionBar(this.toolbar);
+        }
         this.actionBar = AndroidConfig.activity.getSupportActionBar();
         if (!this.isCreated) {
           this.setHeaderBarDefaults();
