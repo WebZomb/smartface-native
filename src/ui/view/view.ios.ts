@@ -104,10 +104,10 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
     this._rotationY = 0;
     this._width = 0;
     this._height = 0;
-    this._borderTopLeftRadius = 0;
-    this._borderTopRightRadius = 0;
-    this._borderBottomLeftRadius = 0;
-    this._borderBottomRightRadius = 0;
+    this._borderTopLeftRadius = -1;
+    this._borderTopRightRadius = -1;
+    this._borderBottomLeftRadius = -1;
+    this._borderBottomRightRadius = -1;
     this._borderTopStartRadius = -1;
     this._borderTopEndRadius = -1;
     this._borderBottomStartRadius = -1;
@@ -163,6 +163,7 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
           value: shadowOpacity
         });
         Invocation.invokeInstanceMethod(self.nativeObject.layer, 'setShadowOpacity:', [argShadowOpacity]);
+        self.backgroundColor = self.backgroundColor;
       },
       get shadowColor() {
         const color = Invocation.invokeInstanceMethod(self.nativeObject.layer, 'shadowColor', [], 'CGColor');
@@ -176,6 +177,7 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
           value: shadowColor.nativeObject
         });
         Invocation.invokeInstanceMethod(self.nativeObject.layer, 'setShadowColor:', [argShadowColor]);
+        self.backgroundColor = self.backgroundColor;
       },
       get exclusiveTouch() {
         return Invocation.invokeInstanceMethod(self.nativeObject, 'isExclusiveTouch', [], 'BOOL') as boolean;
@@ -357,43 +359,45 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
 
   private calculateTopRadius() {
     /* check direction and calculate topLeft, topRight, bottomLeft, bottomRight */
-    let topLeft = 0;
-    let topRight = 0;
+    let topLeft = -1;
+    let topRight = -1;
 
     // find topLeft radius based on direction and replace its value if direction is RTL
     if (this._borderTopStartRadius !== -1) {
       if (this._isLTR) topLeft = this._borderTopStartRadius;
       else topRight = this._borderTopStartRadius;
-    } else if (this._borderTopLeftRadius !== 0) topLeft = this._borderTopLeftRadius;
+    } else if (this._borderTopLeftRadius !== -1) topLeft = this._borderTopLeftRadius;
 
     // find topRight radius based on direction and replace its value if direction is RTL
     if (this._borderTopEndRadius !== -1) {
       if (this._isLTR) topRight = this._borderTopEndRadius;
       else topLeft = this._borderTopEndRadius;
-    } else if (this._borderTopRightRadius !== 0) topRight = this._borderTopRightRadius;
+    } else if (this._borderTopRightRadius !== -1) topRight = this._borderTopRightRadius;
 
     this.nativeObject.borderTopLeftRadius = topLeft;
     this.nativeObject.borderTopRightRadius = topRight;
+    this.backgroundColor = this.backgroundColor;
   }
 
   private calculateBottomRadius() {
-    let bottomLeft = 0;
-    let bottomRight = 0;
+    let bottomLeft = -1;
+    let bottomRight = -1;
 
     // find bottomLeft radius based on direction and replace its value if direction is RTL
     if (this._borderBottomStartRadius !== -1) {
       if (this._isLTR) bottomLeft = this._borderBottomStartRadius;
       else bottomRight = this._borderBottomStartRadius;
-    } else if (this._borderBottomLeftRadius !== 0) bottomLeft = this._borderBottomLeftRadius;
+    } else if (this._borderBottomLeftRadius !== -1) bottomLeft = this._borderBottomLeftRadius;
 
     // find bottomRight radius based on direction and replace its value if direction is RTL
     if (this._borderBottomEndRadius !== -1) {
       if (this._isLTR) bottomRight = this._borderBottomEndRadius;
       else bottomLeft = this._borderBottomEndRadius;
-    } else if (this._borderBottomRightRadius !== 0) bottomRight = this._borderBottomRightRadius;
+    } else if (this._borderBottomRightRadius !== -1) bottomRight = this._borderBottomRightRadius;
 
     this.nativeObject.borderBottomLeftRadius = bottomLeft;
     this.nativeObject.borderBottomRightRadius = bottomRight;
+    this.backgroundColor = this.backgroundColor;
   }
 
   get maskedBorders() {
@@ -413,8 +417,37 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
       color: this.nativeObject.backgroundColor
     });
   }
+
+  hasIndividualRadius() {
+    if (
+      this._borderTopLeftRadius === -1 &&
+      this._borderTopRightRadius === -1 &&
+      this.borderBottomLeftRadius === -1 &&
+      this.borderBottomRightRadius === -1 &&
+      this._borderTopStartRadius === -1 &&
+      this._borderTopEndRadius === -1 &&
+      this._borderBottomStartRadius === -1 &&
+      this._borderBottomEndRadius === -1
+    )
+      return false;
+
+    return true;
+  }
+
+  _backgroundForShadow: ColorIOS;
   set backgroundColor(value) {
     if (value instanceof ColorIOS) {
+      if (this.nativeObject.hasShadow() || this.hasIndividualRadius()) {
+        if (this.gradientColor) {
+          this.nativeObject.removeFrameObserver();
+          this.gradientColor = null;
+        }
+        this.nativeObject.backgroundColorForShadow = this._backgroundForShadow;
+        this.nativeObject.backgroundColor = ColorIOS.TRANSPARENT.nativeObject;
+        return;
+      }
+
+      this._backgroundForShadow = value.nativeObject;
       if (value.nativeObject.constructor.name === 'CAGradientLayer') {
         if (!this.gradientColor) {
           this.nativeObject.addFrameObserver();
