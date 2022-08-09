@@ -286,7 +286,7 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
   }
 
   get borderTopLeftRadius() {
-    return this._borderTopLeftRadius;
+    return Math.max(0, this._borderTopLeftRadius);
   }
 
   set borderTopLeftRadius(value) {
@@ -295,7 +295,7 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
   }
 
   get borderTopRightRadius() {
-    return this._borderTopRightRadius;
+    return Math.max(0, this._borderTopRightRadius);
   }
 
   set borderTopRightRadius(value) {
@@ -313,7 +313,7 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
   }
 
   get borderBottomRightRadius() {
-    return this._borderBottomRightRadius;
+    return Math.max(0, this._borderBottomRightRadius);
   }
 
   set borderBottomRightRadius(value) {
@@ -422,8 +422,8 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
     if (
       this._borderTopLeftRadius === -1 &&
       this._borderTopRightRadius === -1 &&
-      this.borderBottomLeftRadius === -1 &&
-      this.borderBottomRightRadius === -1 &&
+      this._borderBottomLeftRadius === -1 &&
+      this._borderBottomRightRadius === -1 &&
       this._borderTopStartRadius === -1 &&
       this._borderTopEndRadius === -1 &&
       this._borderBottomStartRadius === -1 &&
@@ -434,6 +434,7 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
     return true;
   }
 
+  _backgroundForShadow: ColorIOS;
   set backgroundColor(value) {
     if (value instanceof ColorIOS) {
       if (this.nativeObject.hasShadow() || this.hasIndividualRadius()) {
@@ -441,11 +442,12 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
           this.nativeObject.removeFrameObserver();
           this.gradientColor = null;
         }
-        this.nativeObject.backgroundColorForShadow = value.nativeObject;
+        this.nativeObject.backgroundColorForShadow = this._backgroundForShadow;
         this.nativeObject.backgroundColor = ColorIOS.TRANSPARENT.nativeObject;
         return;
       }
 
+      this._backgroundForShadow = value.nativeObject;
       if (value.nativeObject.constructor.name === 'CAGradientLayer') {
         if (!this.gradientColor) {
           this.nativeObject.addFrameObserver();
