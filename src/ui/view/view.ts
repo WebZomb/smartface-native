@@ -323,7 +323,7 @@ export interface IViewProps<TProps extends MobileOSProps<ViewIOSProps, ViewAndro
    * @member UI.View
    * @since 0.1
    */
-  id: string;
+  id: number;
   /**
    * Gets/sets test id for view. resource-id for android; accessibilityIdentifier for iOS.
    *
@@ -662,7 +662,7 @@ export interface IViewProps<TProps extends MobileOSProps<ViewIOSProps, ViewAndro
    */
   maskedBorders: Border[];
   /**
-   * The color of the shadow. 
+   * The color of the shadow.
    * {@link UI.View.ios#masksToBounds} property must be false for shadow on iOS.
    * On Android, this property only works on Android 9 and above.
    *
@@ -1149,7 +1149,7 @@ export declare class AbstractView<TEvent extends string = ViewEvents, TNative = 
   borderTopRightRadius: number;
   borderBottomRightRadius: number;
   borderBottomLeftRadius: number;
-  id: string;
+  id: number;
   testId: string;
   visible: boolean;
   rotation: number;

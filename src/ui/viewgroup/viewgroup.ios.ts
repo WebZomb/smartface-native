@@ -89,7 +89,7 @@ export default class ViewGroupIOS<TEvent extends string = ViewGroupEvents, TNati
     return Object.values(this._childs);
   }
 
-  findChildById(id: string) {
+  findChildById(id: number) {
     for (const prop in this._childs) {
       if (this._childs[prop].id === id) {
         return this._childs[prop];
