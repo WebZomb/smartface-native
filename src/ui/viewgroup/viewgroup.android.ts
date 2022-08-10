@@ -61,7 +61,7 @@ export default class ViewGroupAndroid<TEvent extends string = ViewGroupEvents, T
   getChildList() {
     return Object.values(this.childViews);
   }
-  findChildById(id) {
+  findChildById(id: number) {
     return this.childViews[id] ? this.childViews[id] : null;
   }
   toString() {
