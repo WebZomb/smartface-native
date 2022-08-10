@@ -52,8 +52,8 @@ export default class ViewGroupIOS<TEvent extends string = ViewGroupEvents, TNati
 
     // SwipeView working with UIPageViewController which has 'inaccessible views'.
     // When user removes/adds or change style of the SwipeView, applyLayout needs to be called for parent view
-    // @ts-ignore
-    if (view.id === 101) {
+    // TODO: Investigate why swipeview parents requires apply layout (FW-1048)
+    if (view.constructor.name === 'SwipeViewIOS') {
       this.applyLayout();
     }
   }
