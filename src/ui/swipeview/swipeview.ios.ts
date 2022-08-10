@@ -47,6 +47,7 @@ export default class SwipeViewIOS<TEvent extends string = SwipeViewEvents, TNati
     return super.createNativeObject();
   }
   preConstruct(params?: TProps) {
+    this.id = 101;
     this.transactionIndex = 0;
     this._currentIndex = 0;
     this.currentState = SwipeViewState.IDLE;
