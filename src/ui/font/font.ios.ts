@@ -20,12 +20,6 @@ export default class FontIOS extends AbstractFont implements IFont {
       return FontIOS.createDefaultFamilyFont(size, style);
     }
     const fallbackFont = __SF_UIFont.fontWithNameSize(fontFamily, size);
-    console.info('fallbackfont: ', {
-      fontFamily,
-      size,
-      style,
-      fallback: fallbackFont?.toString() || 'is undefined'
-    });
     if (style === FontIOS.NORMAL) {
       return FontIOS.checkFontFileWithSuffix(fontFamily, size, '_n', '-Regular') || fallbackFont;
     } else if (style === FontIOS.BOLD) {
