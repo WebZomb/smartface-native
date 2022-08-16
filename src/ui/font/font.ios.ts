@@ -20,14 +20,20 @@ export default class FontIOS extends AbstractFont implements IFont {
       return FontIOS.createDefaultFamilyFont(size, style);
     }
     const fallbackFont = __SF_UIFont.fontWithNameSize(fontFamily, size);
+    console.info('fallbackfont: ', {
+      fontFamily,
+      size,
+      style,
+      fallback: fallbackFont?.toString() || 'is undefined'
+    });
     if (style === FontIOS.NORMAL) {
       return FontIOS.checkFontFileWithSuffix(fontFamily, size, '_n', '-Regular') || fallbackFont;
     } else if (style === FontIOS.BOLD) {
-      return FontIOS.checkFontFileWithSuffix(fontFamily, size, '_b', '-Bold') || fallbackFont.bold();
+      return FontIOS.checkFontFileWithSuffix(fontFamily, size, '_b', '-Bold') || fallbackFont?.bold();
     } else if (style === FontIOS.ITALIC) {
-      return FontIOS.checkFontFileWithSuffix(fontFamily, size, '_i', '-Italic') || fallbackFont.italic();
+      return FontIOS.checkFontFileWithSuffix(fontFamily, size, '_i', '-Italic') || fallbackFont?.italic();
     } else if (style === FontIOS.BOLD_ITALIC) {
-      return FontIOS.checkFontFileWithSuffix(fontFamily, size, '_bi', '-BoldItalic') || fallbackFont.boldItalic();
+      return FontIOS.checkFontFileWithSuffix(fontFamily, size, '_bi', '-BoldItalic') || fallbackFont?.boldItalic();
     } else {
       return FontIOS.getFileFont(fontFamily, size, '_n') || fallbackFont; //Fallback of fallback
     }
