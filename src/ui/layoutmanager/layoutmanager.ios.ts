@@ -72,7 +72,7 @@ export default class LayoutManagerIOS extends AbstractLayoutManager<__SF_UIColle
     nativeObject.targetContentOffsetForProposedContentOffsetWithScrollingVelocityCallback = (proposedContentOffset, velocity) => {
       const proposedContentOffsetWithInset = {
         x: proposedContentOffset.x + (this.contentInset.left || 0),
-        y: proposedContentOffset.y + (this.contentInset?.top || 0)
+        y: proposedContentOffset.y + (this.contentInset.top || 0)
       };
       if (this.ios.targetContentOffset) {
         const returnValue = this.ios.targetContentOffset(proposedContentOffsetWithInset, velocity);

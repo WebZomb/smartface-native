@@ -108,8 +108,8 @@ export default class BottomTabbarControllerAndroid extends NativeEventEmitterCom
   }
   set tabBar(params: any) {
     const { android, ios, ...rest } = params as IBottomTabBar;
-    Object.assign(Application.tabBar, rest);
-    Object.assign(Application.tabBar?.android, android);
+    Object.assign(Application.tabBar as any, rest);
+    Object.assign(Application.tabBar?.android as any, android);
   }
   get childControllers() {
     return this._childControllers;
