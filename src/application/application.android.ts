@@ -286,7 +286,7 @@ class ApplicationAndroidClass extends NativeEventEmitterComponent<ApplicationEve
     AndroidConfig.activity.finish();
   }
   restart() {
-    this.spratAndroidActivityInstance.restartSpratActivity();
+    this.spratAndroidActivityInstance.restartApplication();
   }
   hideKeyboard() {
     const focusedView = AndroidConfig.activity.getCurrentFocus();
