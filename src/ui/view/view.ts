@@ -965,7 +965,7 @@ export enum Border {
    * @readonly
    * @since 4.1.4
    */
-  TOP_LEFT = 0,
+  TOP_LEFT = 1,
   /**
    * View's top-right border.
    *
@@ -987,7 +987,7 @@ export enum Border {
    * @readonly
    * @since 4.1.4
    */
-  BOTTOM_RIGHT = 4,
+  BOTTOM_RIGHT = 8,
   /**
    * View's bottom-left border.
    *
@@ -998,7 +998,7 @@ export enum Border {
    * @readonly
    * @since 4.1.4
    */
-  BOTTOM_LEFT = 0
+  BOTTOM_LEFT = 4
 }
 
 /**
