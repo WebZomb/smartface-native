@@ -292,6 +292,10 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
   set borderTopLeftRadius(value) {
     this._borderTopLeftRadius = value;
     this.calculateTopRadius();
+
+    // Android provide individiaul radius assignment. iOS does not provide the feature.
+    // So every individual assignment will effect the general border radius.
+    this.borderRadius = value;
   }
 
   get borderTopRightRadius() {
@@ -301,6 +305,9 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
   set borderTopRightRadius(value) {
     this._borderTopRightRadius = value;
     this.calculateTopRadius();
+    // Android provide individiaul radius assignment. iOS does not provide the feature.
+    // So every individual assignment will effect the general border radius.
+    this.borderRadius = value;
   }
 
   get borderBottomLeftRadius() {
@@ -310,6 +317,9 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
   set borderBottomLeftRadius(value) {
     this._borderBottomLeftRadius = value;
     this.calculateBottomRadius();
+    // Android provide individiaul radius assignment. iOS does not provide the feature.
+    // So every individual assignment will effect the general border radius.
+    this.borderRadius = value;
   }
 
   get borderBottomRightRadius() {
@@ -319,6 +329,9 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
   set borderBottomRightRadius(value) {
     this._borderBottomRightRadius = value;
     this.calculateBottomRadius();
+    // Android provide individiaul radius assignment. iOS does not provide the feature.
+    // So every individual assignment will effect the general border radius.
+    this.borderRadius = value;
   }
 
   get borderTopStartRadius() {
@@ -328,6 +341,9 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
   set borderTopStartRadius(value) {
     this._borderTopStartRadius = value;
     this.calculateTopRadius();
+    // Android provide individiaul radius assignment. iOS does not provide the feature.
+    // So every individual assignment will effect the general border radius.
+    this.borderRadius = value;
   }
 
   get borderTopEndRadius() {
@@ -337,6 +353,9 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
   set borderTopEndRadius(value) {
     this._borderTopEndRadius = value;
     this.calculateTopRadius();
+    // Android provide individiaul radius assignment. iOS does not provide the feature.
+    // So every individual assignment will effect the general border radius.
+    this.borderRadius = value;
   }
 
   get borderBottomStartRadius() {
@@ -346,6 +365,9 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
   set borderBottomStartRadius(value) {
     this._borderBottomStartRadius = value;
     this.calculateBottomRadius();
+    // Android provide individiaul radius assignment. iOS does not provide the feature.
+    // So every individual assignment will effect the general border radius.
+    this.borderRadius = value;
   }
 
   get borderBottomEndRadius() {
@@ -355,6 +377,9 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
   set borderBottomEndRadius(value) {
     this._borderBottomEndRadius = value;
     this.calculateBottomRadius();
+    // Android provide individiaul radius assignment. iOS does not provide the feature.
+    // So every individual assignment will effect the general border radius.
+    this.borderRadius = value;
   }
 
   private calculateTopRadius() {
@@ -418,36 +443,9 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
     });
   }
 
-  hasIndividualRadius() {
-    if (
-      this._borderTopLeftRadius === -1 &&
-      this._borderTopRightRadius === -1 &&
-      this._borderBottomLeftRadius === -1 &&
-      this._borderBottomRightRadius === -1 &&
-      this._borderTopStartRadius === -1 &&
-      this._borderTopEndRadius === -1 &&
-      this._borderBottomStartRadius === -1 &&
-      this._borderBottomEndRadius === -1
-    )
-      return false;
-
-    return true;
-  }
-
   _backgroundForShadow: ColorIOS;
   set backgroundColor(value) {
     if (value instanceof ColorIOS) {
-      if (this.nativeObject.hasShadow() || this.hasIndividualRadius()) {
-        if (this.gradientColor) {
-          this.nativeObject.removeFrameObserver();
-          this.gradientColor = null;
-        }
-        this.nativeObject.backgroundColorForShadow = this._backgroundForShadow;
-        this.nativeObject.backgroundColor = ColorIOS.TRANSPARENT.nativeObject;
-        return;
-      }
-
-      this._backgroundForShadow = value.nativeObject;
       if (value.nativeObject.constructor.name === 'CAGradientLayer') {
         if (!this.gradientColor) {
           this.nativeObject.addFrameObserver();
