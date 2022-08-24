@@ -282,7 +282,8 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
     return this.nativeObject.layer.cornerRadius;
   }
   set borderRadius(value) {
-    this.nativeObject.layer.cornerRadius = value;
+    // Maximum border radius value can be half of its height
+    this.nativeObject.layer.cornerRadius = Math.min(value, this.height / 2);
   }
 
   get borderTopLeftRadius() {
