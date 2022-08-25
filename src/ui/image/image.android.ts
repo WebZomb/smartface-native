@@ -1,5 +1,5 @@
 import BlobAndroid from '../../global/blob/blob.android';
-import { IImage, AbstractImage, Format, ImageAndroidProps, ImageIOSProps, ImageParams } from './image';
+import { IImage, AbstractImage, Format, ImageAndroidProps, ImageIOSProps, ImageParams, RenderingMode } from './image';
 import AndroidConfig from '../../util/Android/androidconfig';
 import FileAndroid from '../../io/file/file.android';
 import PathAndroid from '../../io/path/path.android';
@@ -230,10 +230,10 @@ export default class ImageAndroid<TNative = any, TProps extends MobileOSProps<Im
         return self as ImageAndroid;
       },
       get renderingMode() {
-        return self.nativeObject.valueForKey('renderingMode');
+        return RenderingMode.AUTOMATIC;
       },
       get flipsForRightToLeftLayoutDirection() {
-        return self.nativeObject.valueForKey('flipsForRightToLeftLayoutDirection');
+        return false;
       }
     };
   }
