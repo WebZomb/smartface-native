@@ -1,14 +1,13 @@
 import { Point2D } from '../../primitive/point2d';
 import { IColor } from '../color/color';
 import { ViewEvents } from './view-events';
-import { IView, IViewProps, ViewBase } from './view';
+import { Border, IView, IViewProps, ViewBase } from './view';
 import { Size } from '../../primitive/size';
 import { YGUnit } from '../shared/ios/yogaenums';
 import Invocation from '../../util/iOS/invocation';
 import Exception from '../../util/exception';
 import ColorIOS from '../color/color.ios';
 import { IViewGroup } from '../viewgroup/viewgroup';
-import TimerIOS from '../../global/timer/timer.ios';
 
 export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, TProps extends IViewProps = IViewProps>
   extends ViewBase<TEvent, TNative, TProps>
@@ -283,6 +282,7 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
   }
   set borderRadius(value) {
     this.nativeObject.layer.cornerRadius = value;
+    this.applyMaskedCorners()
   }
 
   get borderTopLeftRadius() {
@@ -382,6 +382,27 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
     this.borderRadius = value;
   }
 
+  private applyMaskedCorners = () => {
+    // Android support individual corner radius assignment. On the other hand, ios does not.
+    // iOS only suppors corner selection to apply borderRadius property. 
+    // After,borderRadius assignment we calculate corners based on the corner values.
+    // borderRadius value get latest topLeft, topRight, bottomLeft, bottomRight respecting in order
+    // For example; topLeft: 30, topRight: 40, bottomLeft: 50, borderRadius would get '50' because of order above
+    let masks: Border[] = [];
+    if (this.nativeObject.borderTopLeftRadius !== -1) {
+      masks.push(Border.TOP_LEFT)
+    } if (this.nativeObject.borderTopRightRadius !== -1) {
+      masks.push(Border.TOP_RIGHT)
+    } if (this.nativeObject.borderBottomLeftRadius !== -1) {
+      masks.push(Border.BOTTOM_LEFT)
+    }
+    if (this.nativeObject.borderBottomRightRadius !== -1) {
+      masks.push(Border.BOTTOM_RIGHT)
+    }
+
+    this.maskedBorders = masks;
+  }
+
   private calculateTopRadius() {
     /* check direction and calculate topLeft, topRight, bottomLeft, bottomRight */
     let topLeft = -1;
@@ -401,7 +422,6 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
 
     this.nativeObject.borderTopLeftRadius = topLeft;
     this.nativeObject.borderTopRightRadius = topRight;
-    this.backgroundColor = this.backgroundColor;
   }
 
   private calculateBottomRadius() {
@@ -422,7 +442,6 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
 
     this.nativeObject.borderBottomLeftRadius = bottomLeft;
     this.nativeObject.borderBottomRightRadius = bottomRight;
-    this.backgroundColor = this.backgroundColor;
   }
 
   get maskedBorders() {
