@@ -292,10 +292,6 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
   set borderTopLeftRadius(value) {
     this._borderTopLeftRadius = value;
     this.calculateTopRadius();
-
-    // Android provide individiaul radius assignment. iOS does not provide the feature.
-    // So every individual assignment will effect the general border radius.
-    this.borderRadius = value;
   }
 
   get borderTopRightRadius() {
@@ -305,9 +301,6 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
   set borderTopRightRadius(value) {
     this._borderTopRightRadius = value;
     this.calculateTopRadius();
-    // Android provide individiaul radius assignment. iOS does not provide the feature.
-    // So every individual assignment will effect the general border radius.
-    this.borderRadius = value;
   }
 
   get borderBottomLeftRadius() {
@@ -317,9 +310,6 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
   set borderBottomLeftRadius(value) {
     this._borderBottomLeftRadius = value;
     this.calculateBottomRadius();
-    // Android provide individiaul radius assignment. iOS does not provide the feature.
-    // So every individual assignment will effect the general border radius.
-    this.borderRadius = value;
   }
 
   get borderBottomRightRadius() {
@@ -329,9 +319,6 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
   set borderBottomRightRadius(value) {
     this._borderBottomRightRadius = value;
     this.calculateBottomRadius();
-    // Android provide individiaul radius assignment. iOS does not provide the feature.
-    // So every individual assignment will effect the general border radius.
-    this.borderRadius = value;
   }
 
   get borderTopStartRadius() {
@@ -341,9 +328,6 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
   set borderTopStartRadius(value) {
     this._borderTopStartRadius = value;
     this.calculateTopRadius();
-    // Android provide individiaul radius assignment. iOS does not provide the feature.
-    // So every individual assignment will effect the general border radius.
-    this.borderRadius = value;
   }
 
   get borderTopEndRadius() {
@@ -353,9 +337,6 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
   set borderTopEndRadius(value) {
     this._borderTopEndRadius = value;
     this.calculateTopRadius();
-    // Android provide individiaul radius assignment. iOS does not provide the feature.
-    // So every individual assignment will effect the general border radius.
-    this.borderRadius = value;
   }
 
   get borderBottomStartRadius() {
@@ -365,9 +346,6 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
   set borderBottomStartRadius(value) {
     this._borderBottomStartRadius = value;
     this.calculateBottomRadius();
-    // Android provide individiaul radius assignment. iOS does not provide the feature.
-    // So every individual assignment will effect the general border radius.
-    this.borderRadius = value;
   }
 
   get borderBottomEndRadius() {
@@ -377,9 +355,6 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
   set borderBottomEndRadius(value) {
     this._borderBottomEndRadius = value;
     this.calculateBottomRadius();
-    // Android provide individiaul radius assignment. iOS does not provide the feature.
-    // So every individual assignment will effect the general border radius.
-    this.borderRadius = value;
   }
 
   private applyMaskedCorners = () => {
@@ -389,14 +364,14 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
     // borderRadius value get latest topLeft, topRight, bottomLeft, bottomRight respecting in order
     // For example; topLeft: 30, topRight: 40, bottomLeft: 50, borderRadius would get '50' because of order above
     let masks: Border[] = [];
-    if (this.nativeObject.borderTopLeftRadius !== -1) {
+    if (this.nativeObject.borderTopLeftRadius !== -2) {
       masks.push(Border.TOP_LEFT)
-    } if (this.nativeObject.borderTopRightRadius !== -1) {
+    } if (this.nativeObject.borderTopRightRadius !== -2) {
       masks.push(Border.TOP_RIGHT)
-    } if (this.nativeObject.borderBottomLeftRadius !== -1) {
+    } if (this.nativeObject.borderBottomLeftRadius !== -2) {
       masks.push(Border.BOTTOM_LEFT)
     }
-    if (this.nativeObject.borderBottomRightRadius !== -1) {
+    if (this.nativeObject.borderBottomRightRadius !== -2) {
       masks.push(Border.BOTTOM_RIGHT)
     }
 
@@ -422,6 +397,10 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
 
     this.nativeObject.borderTopLeftRadius = topLeft;
     this.nativeObject.borderTopRightRadius = topRight;
+    
+    // property call matters between individual radius and borderRadius
+    // so we are forcing to recalculate masks in order to apply given individual corner radiuses
+    this.applyMaskedCorners();
   }
 
   private calculateBottomRadius() {
@@ -442,6 +421,7 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
 
     this.nativeObject.borderBottomLeftRadius = bottomLeft;
     this.nativeObject.borderBottomRightRadius = bottomRight;
+    this.applyMaskedCorners();
   }
 
   get maskedBorders() {
