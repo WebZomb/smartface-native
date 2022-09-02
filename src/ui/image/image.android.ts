@@ -2,7 +2,6 @@ import BlobAndroid from '../../global/blob/blob.android';
 import { IImage, AbstractImage, Format, ImageAndroidProps, ImageIOSProps, ImageParams, RenderingMode } from './image';
 import AndroidConfig from '../../util/Android/androidconfig';
 import FileAndroid from '../../io/file/file.android';
-import PathAndroid from '../../io/path/path.android';
 import { MobileOSProps, WithMobileOSProps } from '../../core/native-mobile-component';
 import { PathFileType } from '../../io/path/path';
 
@@ -26,12 +25,21 @@ export default class ImageAndroid<TNative = any, TProps extends MobileOSProps<Im
   constructor(params?: Partial<ImageParams>) {
     //Should be ImageParams
     super(params as any);
-    this.addAndroidProps(this.getAndroidProps());
-    this.addIOSProps(this.getIOSProps());
     if (typeof params !== 'object') {
       throw new Error('Constructor parameters needed for Image!');
     }
+
+    if(params.android?.systemIcon) {
+      this.android.systemIcon = params.android?.systemIcon;
+    }
   }
+
+  protected preConstruct(params?: Partial<Record<string, any>>): void {
+    super.preConstruct(params);
+    this.addAndroidProps(this.getAndroidProps());
+    this.addIOSProps(this.getIOSProps());
+  }
+
   protected createNativeObject(): any {
     return null;
   }
