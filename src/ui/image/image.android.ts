@@ -43,15 +43,27 @@ export default class ImageAndroid<TNative = any, TProps extends MobileOSProps<Im
   protected createNativeObject(): any {
     return null;
   }
+
+  // Some image types, such as system icon, do not support bitmap.
+  // See android.graphics.drawable.NinePatchDrawable
+  protected checkCanGetBitmapAndMaybeThrowError() {
+    if (typeof this.nativeObject.getBitmap !== "function") {
+      throw new Error("This property/method doesn't work with this image!");
+    }
+  }
+
   get height(): number {
+    this.checkCanGetBitmapAndMaybeThrowError();
     return this.nativeObject.getBitmap().getHeight();
   }
 
   get width(): number {
+    this.checkCanGetBitmapAndMaybeThrowError();
     return this.nativeObject.getBitmap().getWidth();
   }
 
   toBlob(): BlobAndroid {
+    this.checkCanGetBitmapAndMaybeThrowError();
     const bitmap = this.nativeObject.getBitmap();
     const stream = new NativeByteArrayOutputStream();
     bitmap.compress(CompressFormat[1], 100, stream);
@@ -61,6 +73,7 @@ export default class ImageAndroid<TNative = any, TProps extends MobileOSProps<Im
   }
 
   resize(width: number, height: number, onSuccess?: (e: { image: IImage }) => void, onFailure?: (e?: { message: string }) => void) {
+    this.checkCanGetBitmapAndMaybeThrowError();
     let success = true;
     let newBitmap: any;
     try {
@@ -89,6 +102,7 @@ export default class ImageAndroid<TNative = any, TProps extends MobileOSProps<Im
   }
 
   crop(x: number, y: number, width: number, height: number, onSuccess: (e: { image: IImage }) => void, onFailure: (e?: { message: string }) => void) {
+    this.checkCanGetBitmapAndMaybeThrowError();
     let success = true;
     let newBitmap: any;
     try {
@@ -119,6 +133,7 @@ export default class ImageAndroid<TNative = any, TProps extends MobileOSProps<Im
   }
 
   rotate(angle: number, onSuccess: (e: { image: IImage }) => void, onFailure: (e?: { message: string }) => void) {
+    this.checkCanGetBitmapAndMaybeThrowError();
     let success = true;
     let newBitmap: any;
     try {
@@ -151,6 +166,7 @@ export default class ImageAndroid<TNative = any, TProps extends MobileOSProps<Im
   }
 
   compress(format: Format, quality: number, onSuccess: (e: { blob: BlobAndroid }) => void, onFailure: (e?: { message: string }) => void) {
+    this.checkCanGetBitmapAndMaybeThrowError();
     let success = true;
     let byteArray;
     try {
@@ -209,6 +225,7 @@ export default class ImageAndroid<TNative = any, TProps extends MobileOSProps<Im
     const self = this;
     return {
       round(radius: number) {
+        this.checkCanGetBitmapAndMaybeThrowError();
         if (typeof radius !== 'number') throw new Error('radius value must be a number.');
 
         const roundedBitmapDrawable = ImageAndroid.getRoundedBitmapDrawable(self.nativeObject.getBitmap(), radius);
