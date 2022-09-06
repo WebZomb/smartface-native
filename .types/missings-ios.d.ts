@@ -1288,6 +1288,7 @@ declare class __SF_XMLHttpRequest {
   dataToJSON(data: any);
   getHeaderField(response: any, headerField: string): string;
   getAllHeaderFields(response: any): [String: String];
+  serverTrustPolicies?: __SF_SMFServerTrustPolicy[]
 }
 
 declare class __SF_URLSessionTask {
