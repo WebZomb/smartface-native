@@ -225,7 +225,7 @@ export default class ImageAndroid<TNative = any, TProps extends MobileOSProps<Im
     const self = this;
     return {
       round(radius: number) {
-        this.checkCanGetBitmapAndMaybeThrowError();
+        self.checkCanGetBitmapAndMaybeThrowError();
         if (typeof radius !== 'number') throw new Error('radius value must be a number.');
 
         const roundedBitmapDrawable = ImageAndroid.getRoundedBitmapDrawable(self.nativeObject.getBitmap(), radius);
@@ -237,7 +237,7 @@ export default class ImageAndroid<TNative = any, TProps extends MobileOSProps<Im
         return self._systemIcon;
       },
       set systemIcon(systemIcon) {
-        this._systemIcon = systemIcon;
+        self._systemIcon = systemIcon;
         self.nativeObject = NativeContextCompat.getDrawable(AndroidConfig.activity, ImageAndroid.systemDrawableId(this._systemIcon));
       }
     };
