@@ -147,6 +147,8 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
         return Invocation.invokeInstanceMethod(self.nativeObject.layer, 'shadowRadius', [], 'CGFloat') as number;
       },
       set shadowRadius(shadowRadius: number) {
+        if (!shadowRadius) return;
+
         const argShadowRadius = new Invocation.Argument({
           type: 'CGFloat',
           value: shadowRadius
