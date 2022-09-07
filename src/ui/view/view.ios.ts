@@ -357,7 +357,7 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
     this.calculateBottomRadius();
   }
 
-  private applyMaskedCorners = () => {
+  private applyMaskedCorners() {
     // Android support individual corner radius assignment. On the other hand, ios does not.
     // iOS only suppors corner selection to apply borderRadius property. 
     // After,borderRadius assignment we calculate corners based on the corner values.
