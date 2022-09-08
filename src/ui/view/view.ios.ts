@@ -58,8 +58,10 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
         x: e.point.x ?? null,
         y: e.point.y ?? null
       };
-      this.onTouch?.(point);
+      const result = this.onTouch?.(point);
       this.emit('touch', point);
+
+      return !!result;
     };
 
     this.nativeObject.onTouchCancelled = (e?: { point: Point2D }) => {
@@ -67,8 +69,10 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
         x: e?.point.x ?? null,
         y: e?.point.y ?? null
       };
-      this.onTouchCancelled?.(point);
+      const result = this.onTouchCancelled?.(point);
       this.emit('touchCancelled', point);
+
+      return !!result;
     };
     this.nativeObject.onTouchMoved = (e?: { point: Point2D }) => {
       const inside = this.isInside(this.nativeObject.frame, e?.point);
@@ -77,8 +81,10 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
         y: e?.point.y ?? null,
         isInside: inside
       };
-      this.onTouchMoved?.(inside, event);
+      const result = this.onTouchMoved?.(inside, event);
       this.emit('touchMoved', event);
+
+      return !!result;
     };
     this.nativeObject.onTouchEnded = (e?: { point: Point2D }) => {
       const inside = this.isInside(this.nativeObject.frame, e?.point);
@@ -87,8 +93,10 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
         y: e?.point.y ?? null,
         isInside: inside
       };
-      this.onTouchEnded?.(inside, event);
+      const result = this.onTouchEnded?.(inside, event);
       this.emit('touchEnded', event);
+
+      return !!result;
     };
 
     this.addIOSProps(this.getIOSProperties());
@@ -282,7 +290,7 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
   }
   set borderRadius(value) {
     this.nativeObject.layer.cornerRadius = value;
-    this.applyMaskedCorners()
+    this.applyMaskedCorners();
   }
 
   get borderTopLeftRadius() {
@@ -363,16 +371,16 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
     // After,borderRadius assignment we calculate corners based on the corner values.
     // borderRadius value get latest topLeft, topRight, bottomLeft, bottomRight respecting in order
     // For example; topLeft: 30, topRight: 40, bottomLeft: 50, borderRadius would get '50' because of order above
-    let masks: Border[] = [];
+    const masks: Border[] = [];
     if (this.nativeObject.borderTopLeftRadius !== -2) {
-      masks.push(Border.TOP_LEFT)
+      masks.push(Border.TOP_LEFT);
     } if (this.nativeObject.borderTopRightRadius !== -2) {
-      masks.push(Border.TOP_RIGHT)
+      masks.push(Border.TOP_RIGHT);
     } if (this.nativeObject.borderBottomLeftRadius !== -2) {
-      masks.push(Border.BOTTOM_LEFT)
+      masks.push(Border.BOTTOM_LEFT);
     }
     if (this.nativeObject.borderBottomRightRadius !== -2) {
-      masks.push(Border.BOTTOM_RIGHT)
+      masks.push(Border.BOTTOM_RIGHT);
     }
 
     this.maskedBorders = masks;
