@@ -452,7 +452,7 @@ export default class ViewIOS<TEvent extends string = ViewEvents, TNative = any, 
 
   _backgroundForShadow: ColorIOS;
   set backgroundColor(value) {
-    if (value instanceof ColorIOS) {
+    if (value instanceof ColorIOS && value.nativeObject) {
       if (value.nativeObject.constructor.name === 'CAGradientLayer') {
         if (!this.gradientColor) {
           this.nativeObject.addFrameObserver();
