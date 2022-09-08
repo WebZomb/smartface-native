@@ -49,6 +49,13 @@ export default class ViewGroupIOS<TEvent extends string = ViewGroupEvents, TNati
     this._childs[uniqueId] = view;
     this.nativeObject.addSubview(view.nativeObject);
     __SF_UIView.applyToRootView();
+
+    // SwipeView working with UIPageViewController which has 'inaccessible views'.
+    // When user removes/adds or change style of the SwipeView, applyLayout needs to be called for parent view
+    // TODO: Investigate why swipeview parents requires apply layout (FW-1048)
+    if (view.constructor.name === 'SwipeViewIOS') {
+      this.applyLayout();
+    }
   }
 
   private getAndroidProps() {
@@ -82,7 +89,7 @@ export default class ViewGroupIOS<TEvent extends string = ViewGroupEvents, TNati
     return Object.values(this._childs);
   }
 
-  findChildById(id: string) {
+  findChildById(id: number) {
     for (const prop in this._childs) {
       if (this._childs[prop].id === id) {
         return this._childs[prop];

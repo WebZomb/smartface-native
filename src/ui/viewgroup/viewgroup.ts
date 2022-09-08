@@ -110,7 +110,7 @@ export interface IViewGroup<
    * @ios
    * @since 0.1
    */
-  findChildById(id: string): void;
+  findChildById(id: number): void;
   /**
    * This event is called when a view added to this view's hierarchy.
    *
@@ -185,7 +185,7 @@ export declare class AbstractViewGroup<TEvent extends string = ViewGroupEvents, 
   removeAll(): void;
   getChildCount(): number;
   getChildList(): IView[];
-  findChildById(id: string): void;
+  findChildById(id: number): void;
   onViewAdded: (view: IView) => void;
   onViewRemoved: (view: any) => void;
 }

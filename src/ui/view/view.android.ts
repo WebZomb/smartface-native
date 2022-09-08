@@ -13,6 +13,8 @@ import type ViewGroupAndroid from '../viewgroup/viewgroup.android';
 import type ScrollViewAndroid from '../scrollview/scrollview.android';
 import { EventListenerCallback } from '../../core/eventemitter';
 import { IColor } from '../color/color';
+import Flex from '../shared/Flex';
+import { NativeAlignSelf, NativePositionType } from '../shared/android/nativeflexprops';
 
 const NativeR = requireClass('android.R');
 const NativeView = requireClass('android.view.View');
@@ -31,6 +33,19 @@ function PixelToDp(px: number) {
 function DpToPixel(dp: number) {
   return AndroidUnitConverter.dpToPixel(dp);
 }
+
+const PositionTypeMapping = {
+  [Flex.PositionType.ABSOLUTE]: NativePositionType.ABSOLUTE,
+  [Flex.PositionType.RELATIVE]: NativePositionType.RELATIVE
+};
+
+const AlignSelfMapping = {
+  [Flex.AlignSelf.FLEX_START]: NativeAlignSelf.FLEX_START,
+  [Flex.AlignSelf.FLEX_END]: NativeAlignSelf.FLEX_END,
+  [Flex.AlignSelf.CENTER]: NativeAlignSelf.CENTER,
+  [Flex.AlignSelf.AUTO]: NativeAlignSelf.AUTO,
+  [Flex.AlignSelf.STRETCH]: NativeAlignSelf.STRETCH
+};
 
 // MotionEvent.ACTION_UP
 const ACTION_UP = 1;
@@ -84,6 +99,8 @@ export default class ViewAndroid<TEvent extends string = ViewEvents, TNative ext
   private _rotationX: number;
   private _rotationY: number;
   private _scale: Point2D;
+  private _position: IView['positionType'];
+  private _alignSelf: IView['alignSelf'];
   protected _borderColor: IView['borderColor'];
   protected _borderWidth: number;
   protected _borderRadius: number;
@@ -703,7 +720,7 @@ export default class ViewAndroid<TEvent extends string = ViewEvents, TNative ext
     position.width && (this.width = position.width);
     position.height && (this.height = position.height);
   }
-  requestLayout(invalidate?: Boolean) {
+  requestLayout(invalidate?: boolean) {
     this.nativeObject.requestLayout();
     if (invalidate) {
       this.nativeObject.invalidate();
@@ -1004,16 +1021,22 @@ export default class ViewAndroid<TEvent extends string = ViewEvents, TNative ext
     this.requestLayout();
   }
   get alignSelf() {
+    return this._alignSelf;
     return this.yogaNode.getAlignSelf();
   }
-  set alignSelf(alignSelf) {
+  set alignSelf(value) {
+    const alignSelf = AlignSelfMapping[value] || value;
+    this._alignSelf = value;
     this.yogaNode.setAlignSelf(alignSelf);
     this.requestLayout();
   }
   get positionType() {
+    return this._position;
     return this.yogaNode.getPositionType();
   }
-  set positionType(position) {
+  set positionType(value) {
+    const position = PositionTypeMapping[value] || value;
+    this._position = value;
     this.yogaNode.setPositionType(position);
     this.requestLayout();
   }

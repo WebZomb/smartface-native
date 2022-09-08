@@ -13,6 +13,8 @@ export default class XHRAndroid<TEvent extends string = XHREvents, TProps extend
   static LOADING = 3;
   static DONE = 4;
 
+  static ios = { sslPinning: [] }
+
   onabort: (...args: any[]) => void = () => {};
   onerror: (...args: any[]) => void = () => {};
   onload: (...args: any[]) => void = () => {};

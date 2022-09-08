@@ -59,7 +59,6 @@ export default class LabelAndroid<TEvent extends string = ViewEvents, TNative = 
     super(params);
   }
   protected preConstruct(params?: Partial<TProps>): void {
-    super.preConstruct(params);
     this._adjustFontSizeToFit = false;
     this._minimumFontSize = MINIMUM_FONT_SIZE;
     this._adjustableFontSizeStep = 1;

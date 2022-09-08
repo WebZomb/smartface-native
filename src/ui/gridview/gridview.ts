@@ -154,16 +154,6 @@ export interface IGridViewAndroid extends ViewAndroidProps {
    */
   onItemLongSelected: (selectedItem: GridViewItem, index?: number) => void;
   /**
-   * This property allows snapping to behave as pager. There is slight difference in both OS. In Android, paginated gridview item should occupy spaces as much as gridview but iOS
-   * scrolls all visible gridview items at once.
-   *
-   * @property {Boolean} [paginationEnabled = true]
-   * @android
-   * @ios
-   * @since 4.1.4
-   */
-  paginationEnabled: boolean;
-  /**
    * This property enables/disables snapping the center of the target child view to the center of the GridView in either vertical or horizontal orientation. For iOS, prefer to UI.LayoutManager.targetContentOffset
    *
    * @property {UI.GridView.Android.SnapAlignment} [snapToAlignment = UI.GridView.Android.SnapAlignment.SNAPTO_NONE]
@@ -343,6 +333,17 @@ export interface IGridView<TEvent extends string = GridViewEvents, TMobile exten
   refreshEnabled: boolean;
 
   /**
+   * This property allows snapping to behave as pager. There is slight difference in both OS. In Android, paginated gridview item should occupy spaces as much as gridview but iOS
+   * scrolls all visible gridview items at once.
+   *
+   * @property {Boolean} [paginationEnabled = true]
+   * @android
+   * @ios
+   * @since 4.1.4
+   */
+  paginationEnabled: boolean;
+
+  /**
    * Returns the adapter position of the first visible view for first span.
    *
    * @return {Number}
@@ -495,7 +496,7 @@ export interface IGridView<TEvent extends string = GridViewEvents, TMobile exten
   on(eventName: 'scrollBeginDecelerating', callback: (contentOffset: Point2D) => void): () => void;
   on(eventName: 'scrollBeginDragging', callback: (contentOffset: Point2D) => void): () => void;
   on(eventName: 'scrollEndDecelerating', callback: (contentOffset: Point2D) => void): () => void;
-  on(eventName: 'scrollEndDraggingWillDecelerate', callback: (contentOffset: Point2D,decelerate:boolean) => void): () => void;
+  on(eventName: 'scrollEndDraggingWillDecelerate', callback: (contentOffset: Point2D, decelerate: boolean) => void): () => void;
   on(eventName: 'scrollEndDraggingWithVelocityTargetContentOffset', callback: (contentOffset: Point2D, velocity: Point2D, targetContentOffset: Point2D) => void): () => void;
   on(eventName: 'scrollStateChanged', callback: (scrollState: ScrollState, contentOffset: Point2D) => void): () => void;
   on(eventName: 'scroll', callback: (e: { contentOffset: Point2D; android?: { translation?: Point2D } }) => void): () => void;
@@ -510,7 +511,7 @@ export interface IGridView<TEvent extends string = GridViewEvents, TMobile exten
   off(eventName: 'scrollBeginDecelerating', callback: (contentOffset: Point2D) => void): void;
   off(eventName: 'scrollBeginDragging', callback: (contentOffset: Point2D) => void): void;
   off(eventName: 'scrollEndDecelerating', callback: (contentOffset: Point2D) => void): void;
-  off(eventName: 'scrollEndDraggingWillDecelerate', callback: (contentOffset: Point2D,decelerate:boolean) => void): void;
+  off(eventName: 'scrollEndDraggingWillDecelerate', callback: (contentOffset: Point2D, decelerate: boolean) => void): void;
   off(eventName: 'scrollEndDraggingWithVelocityTargetContentOffset', callback: (contentOffset: Point2D, velocity: Point2D, targetContentOffset: Point2D) => void): void;
   off(eventName: 'scrollStateChanged', callback: (scrollState: ScrollState, contentOffset: Point2D) => void): void;
   off(eventName: 'scroll', callback: (e: { contentOffset: Point2D; android?: { translation?: Point2D } }) => void): void;
@@ -525,7 +526,7 @@ export interface IGridView<TEvent extends string = GridViewEvents, TMobile exten
   emit(eventName: 'scrollBeginDecelerating', contentOffset: Point2D): void;
   emit(eventName: 'scrollBeginDragging', contentOffset: Point2D): void;
   emit(eventName: 'scrollEndDecelerating', contentOffset: Point2D): void;
-  emit(eventName: 'scrollEndDraggingWillDecelerate', contentOffset: Point2D,decelerate:boolean): void;
+  emit(eventName: 'scrollEndDraggingWillDecelerate', contentOffset: Point2D, decelerate: boolean): void;
   emit(eventName: 'scrollEndDraggingWithVelocityTargetContentOffset', contentOffset: Point2D, velocity: Point2D, targetContentOffset: Point2D): void;
   emit(eventName: 'scrollStateChanged', scrollState: ScrollState, contentOffset: Point2D): void;
   emit(eventName: 'scroll', e: { contentOffset: Point2D; android?: { translation?: Point2D } }): void;
@@ -540,7 +541,7 @@ export interface IGridView<TEvent extends string = GridViewEvents, TMobile exten
   once(eventName: 'scrollBeginDecelerating', callback: (contentOffset: Point2D) => void): () => void;
   once(eventName: 'scrollBeginDragging', callback: (contentOffset: Point2D) => void): () => void;
   once(eventName: 'scrollEndDecelerating', callback: (contentOffset: Point2D) => void): () => void;
-  once(eventName: 'scrollEndDraggingWillDecelerate', callback: (contentOffset: Point2D,decelerate:boolean) => void): () => void;
+  once(eventName: 'scrollEndDraggingWillDecelerate', callback: (contentOffset: Point2D, decelerate: boolean) => void): () => void;
   once(eventName: 'scrollEndDraggingWithVelocityTargetContentOffset', callback: (contentOffset: Point2D, velocity: Point2D, targetContentOffset: Point2D) => void): () => void;
   once(eventName: 'scrollStateChanged', callback: (scrollState: ScrollState, contentOffset: Point2D) => void): () => void;
   once(eventName: 'scroll', callback: (e: { contentOffset: Point2D; android?: { translation?: Point2D } }) => void): () => void;
@@ -555,7 +556,7 @@ export interface IGridView<TEvent extends string = GridViewEvents, TMobile exten
   prependListener(eventName: 'scrollBeginDecelerating', callback: (contentOffset: Point2D) => void): void;
   prependListener(eventName: 'scrollBeginDragging', callback: (contentOffset: Point2D) => void): void;
   prependListener(eventName: 'scrollEndDecelerating', callback: (contentOffset: Point2D) => void): void;
-  prependListener(eventName: 'scrollEndDraggingWillDecelerate', callback: (contentOffset: Point2D,decelerate:boolean) => void): void;
+  prependListener(eventName: 'scrollEndDraggingWillDecelerate', callback: (contentOffset: Point2D, decelerate: boolean) => void): void;
   prependListener(eventName: 'scrollEndDraggingWithVelocityTargetContentOffset', callback: (contentOffset: Point2D, velocity: Point2D, targetContentOffset: Point2D) => void): void;
   prependListener(eventName: 'scrollStateChanged', callback: (scrollState: ScrollState, contentOffset: Point2D) => void): void;
   prependListener(eventName: 'scroll', callback: (e: { contentOffset: Point2D; android?: { translation?: Point2D } }) => void): void;
@@ -570,7 +571,7 @@ export interface IGridView<TEvent extends string = GridViewEvents, TMobile exten
   prependOnceListener(eventName: 'scrollBeginDecelerating', callback: (contentOffset: Point2D) => void): void;
   prependOnceListener(eventName: 'scrollBeginDragging', callback: (contentOffset: Point2D) => void): void;
   prependOnceListener(eventName: 'scrollEndDecelerating', callback: (contentOffset: Point2D) => void): void;
-  prependOnceListener(eventName: 'scrollEndDraggingWillDecelerate', callback: (contentOffset: Point2D,decelerate:boolean) => void): void;
+  prependOnceListener(eventName: 'scrollEndDraggingWillDecelerate', callback: (contentOffset: Point2D, decelerate: boolean) => void): void;
   prependOnceListener(eventName: 'scrollEndDraggingWithVelocityTargetContentOffset', callback: (contentOffset: Point2D, velocity: Point2D, targetContentOffset: Point2D) => void): void;
   prependOnceListener(eventName: 'scrollStateChanged', callback: (scrollState: ScrollState, contentOffset: Point2D) => void): void;
   prependOnceListener(eventName: 'scroll', callback: (e: { contentOffset: Point2D; android?: { translation?: Point2D } }) => void): void;
@@ -584,6 +585,7 @@ export declare class AbstractGridView<TEvent extends string = GridViewEvents, TP
   onItemType: (index?: number) => number;
   onItemSelected: (gridViewItem: GridViewItem, index?: number) => void;
   scrollEnabled: boolean;
+  paginationEnabled: boolean;
   contentOffset: Point2D;
   itemCount: number;
   layoutManager: LayoutManager;
@@ -607,7 +609,7 @@ export declare class AbstractGridView<TEvent extends string = GridViewEvents, TP
   static iOS: {
     DecelerationRate: typeof DecelerationRate;
   };
-    on(eventName: 'attachedToWindow', callback: () => void): () => void;
+  on(eventName: 'attachedToWindow', callback: () => void): () => void;
   on(eventName: 'detachedFromWindow', callback: () => void): () => void;
   on(eventName: 'gesture', callback: (params: { distanceX: number; distanceY: number }) => boolean): () => void;
   on(eventName: 'pullRefresh', callback: () => void): () => void;
@@ -617,7 +619,7 @@ export declare class AbstractGridView<TEvent extends string = GridViewEvents, TP
   on(eventName: 'scrollBeginDecelerating', callback: (contentOffset: Point2D) => void): () => void;
   on(eventName: 'scrollBeginDragging', callback: (contentOffset: Point2D) => void): () => void;
   on(eventName: 'scrollEndDecelerating', callback: (contentOffset: Point2D) => void): () => void;
-  on(eventName: 'scrollEndDraggingWillDecelerate', callback: (contentOffset: Point2D,decelerate:boolean) => void): () => void;
+  on(eventName: 'scrollEndDraggingWillDecelerate', callback: (contentOffset: Point2D, decelerate: boolean) => void): () => void;
   on(eventName: 'scrollEndDraggingWithVelocityTargetContentOffset', callback: (contentOffset: Point2D, velocity: Point2D, targetContentOffset: Point2D) => void): () => void;
   on(eventName: 'scrollStateChanged', callback: (scrollState: ScrollState, contentOffset: Point2D) => void): () => void;
   on(eventName: 'scroll', callback: (e: { contentOffset: Point2D; android?: { translation?: Point2D } }) => void): () => void;
@@ -632,7 +634,7 @@ export declare class AbstractGridView<TEvent extends string = GridViewEvents, TP
   off(eventName: 'scrollBeginDecelerating', callback: (contentOffset: Point2D) => void): void;
   off(eventName: 'scrollBeginDragging', callback: (contentOffset: Point2D) => void): void;
   off(eventName: 'scrollEndDecelerating', callback: (contentOffset: Point2D) => void): void;
-  off(eventName: 'scrollEndDraggingWillDecelerate', callback: (contentOffset: Point2D,decelerate:boolean) => void): void;
+  off(eventName: 'scrollEndDraggingWillDecelerate', callback: (contentOffset: Point2D, decelerate: boolean) => void): void;
   off(eventName: 'scrollEndDraggingWithVelocityTargetContentOffset', callback: (contentOffset: Point2D, velocity: Point2D, targetContentOffset: Point2D) => void): void;
   off(eventName: 'scrollStateChanged', callback: (scrollState: ScrollState, contentOffset: Point2D) => void): void;
   off(eventName: 'scroll', callback: (e: { contentOffset: Point2D; android?: { translation?: Point2D } }) => void): void;
@@ -647,7 +649,7 @@ export declare class AbstractGridView<TEvent extends string = GridViewEvents, TP
   emit(eventName: 'scrollBeginDecelerating', contentOffset: Point2D): void;
   emit(eventName: 'scrollBeginDragging', contentOffset: Point2D): void;
   emit(eventName: 'scrollEndDecelerating', contentOffset: Point2D): void;
-  emit(eventName: 'scrollEndDraggingWillDecelerate', contentOffset: Point2D,decelerate:boolean): void;
+  emit(eventName: 'scrollEndDraggingWillDecelerate', contentOffset: Point2D, decelerate: boolean): void;
   emit(eventName: 'scrollEndDraggingWithVelocityTargetContentOffset', contentOffset: Point2D, velocity: Point2D, targetContentOffset: Point2D): void;
   emit(eventName: 'scrollStateChanged', scrollState: ScrollState, contentOffset: Point2D): void;
   emit(eventName: 'scroll', e: { contentOffset: Point2D; android?: { translation?: Point2D } }): void;
@@ -662,7 +664,7 @@ export declare class AbstractGridView<TEvent extends string = GridViewEvents, TP
   once(eventName: 'scrollBeginDecelerating', callback: (contentOffset: Point2D) => void): () => void;
   once(eventName: 'scrollBeginDragging', callback: (contentOffset: Point2D) => void): () => void;
   once(eventName: 'scrollEndDecelerating', callback: (contentOffset: Point2D) => void): () => void;
-  once(eventName: 'scrollEndDraggingWillDecelerate', callback: (contentOffset: Point2D,decelerate:boolean) => void): () => void;
+  once(eventName: 'scrollEndDraggingWillDecelerate', callback: (contentOffset: Point2D, decelerate: boolean) => void): () => void;
   once(eventName: 'scrollEndDraggingWithVelocityTargetContentOffset', callback: (contentOffset: Point2D, velocity: Point2D, targetContentOffset: Point2D) => void): () => void;
   once(eventName: 'scrollStateChanged', callback: (scrollState: ScrollState, contentOffset: Point2D) => void): () => void;
   once(eventName: 'scroll', callback: (e: { contentOffset: Point2D; android?: { translation?: Point2D } }) => void): () => void;
@@ -677,7 +679,7 @@ export declare class AbstractGridView<TEvent extends string = GridViewEvents, TP
   prependListener(eventName: 'scrollBeginDecelerating', callback: (contentOffset: Point2D) => void): void;
   prependListener(eventName: 'scrollBeginDragging', callback: (contentOffset: Point2D) => void): void;
   prependListener(eventName: 'scrollEndDecelerating', callback: (contentOffset: Point2D) => void): void;
-  prependListener(eventName: 'scrollEndDraggingWillDecelerate', callback: (contentOffset: Point2D,decelerate:boolean) => void): void;
+  prependListener(eventName: 'scrollEndDraggingWillDecelerate', callback: (contentOffset: Point2D, decelerate: boolean) => void): void;
   prependListener(eventName: 'scrollEndDraggingWithVelocityTargetContentOffset', callback: (contentOffset: Point2D, velocity: Point2D, targetContentOffset: Point2D) => void): void;
   prependListener(eventName: 'scrollStateChanged', callback: (scrollState: ScrollState, contentOffset: Point2D) => void): void;
   prependListener(eventName: 'scroll', callback: (e: { contentOffset: Point2D; android?: { translation?: Point2D } }) => void): void;
@@ -692,10 +694,9 @@ export declare class AbstractGridView<TEvent extends string = GridViewEvents, TP
   prependOnceListener(eventName: 'scrollBeginDecelerating', callback: (contentOffset: Point2D) => void): void;
   prependOnceListener(eventName: 'scrollBeginDragging', callback: (contentOffset: Point2D) => void): void;
   prependOnceListener(eventName: 'scrollEndDecelerating', callback: (contentOffset: Point2D) => void): void;
-  prependOnceListener(eventName: 'scrollEndDraggingWillDecelerate', callback: (contentOffset: Point2D,decelerate:boolean) => void): void;
+  prependOnceListener(eventName: 'scrollEndDraggingWillDecelerate', callback: (contentOffset: Point2D, decelerate: boolean) => void): void;
   prependOnceListener(eventName: 'scrollEndDraggingWithVelocityTargetContentOffset', callback: (contentOffset: Point2D, velocity: Point2D, targetContentOffset: Point2D) => void): void;
   prependOnceListener(eventName: 'scrollStateChanged', callback: (scrollState: ScrollState, contentOffset: Point2D) => void): void;
   prependOnceListener(eventName: 'scroll', callback: (e: { contentOffset: Point2D; android?: { translation?: Point2D } }) => void): void;
   prependOnceListener(eventName: GridViewEvents, callback: (...args: any[]) => void): void;
 }
-

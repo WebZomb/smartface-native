@@ -14,7 +14,7 @@ export default class DialogIOS extends NativeMobileComponent implements IDialog 
     this.dialogView = new FlexLayout();
     this.dialogView.nativeObject.frame = __SF_UIScreen.mainScreen().bounds;
     this.dialogView.backgroundColor = Color.create(DEFAULT_TRANSLUCENCY, 0, 0, 0);
-    this.dialogView.id = String(DialogIOS.iOS.ID);
+    this.dialogView.id = DialogIOS.iOS.ID;
 
     this.dialogView.applyLayout = () => this.dialogView.nativeObject.yoga.applyLayoutPreservingOrigin(true);
     this.dialogView.nativeObject.addObserver(() => {
