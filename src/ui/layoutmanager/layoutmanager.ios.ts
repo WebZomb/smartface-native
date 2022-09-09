@@ -10,7 +10,7 @@ const NativeScrollDirection = {
   HORIZONTAL: 1
 };
 
-const ScrollDirectionMapping = {
+export const ScrollDirectionMapping = {
   [ScrollDirection.VERTICAL]: NativeScrollDirection.VERTICAL,
   [ScrollDirection.HORIZONTAL]: NativeScrollDirection.HORIZONTAL
 };
