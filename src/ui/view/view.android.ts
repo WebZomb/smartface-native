@@ -525,8 +525,12 @@ export default class ViewAndroid<TEvent extends string = ViewEvents, TNative ext
 
   private adjustBorderEnumForAndroid(borders: number[]): number[] {
     return borders.map(border => {
-      if (border === Border.BOTTOM_LEFT) return Border.BOTTOM_RIGHT;
-      if (border === Border.BOTTOM_RIGHT) return Border.BOTTOM_LEFT;
+      if (border === Border.BOTTOM_LEFT) {
+        return Border.BOTTOM_RIGHT;
+      }
+      if (border === Border.BOTTOM_RIGHT) {
+        return Border.BOTTOM_LEFT;
+      }
       return border;
     });
   }
