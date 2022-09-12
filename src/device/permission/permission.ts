@@ -33,7 +33,8 @@ export enum PermissionResult {
 export namespace Permissions {
   export enum IOS {
     LOCATION = 'CLLocationManager',
-    CAMERA = 'PHPhotoLibrary'
+    CAMERA = 'AVCaptureDevice',
+    GALLERY = 'PHPhotoLibrary'
   }
   export enum ANDROID {
     /**
