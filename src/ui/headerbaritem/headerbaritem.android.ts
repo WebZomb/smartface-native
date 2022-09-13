@@ -81,7 +81,7 @@ export default class HeaderBarItemAndroid extends NativeMobileComponent<any, IHe
       set systemIcon(systemIcon) {
         self._systemIcon = systemIcon;
 
-        if (!self.nativeObject || (self.nativeObject && !self.imageButton)) {
+        if (!self.nativeObject || !self.imageButton) {
           self.nativeObject = this.createNativeImageButton.call(self);
           self.updateAccessibilityLabel(self._accessibilityLabel);
         }
@@ -127,16 +127,14 @@ export default class HeaderBarItemAndroid extends NativeMobileComponent<any, IHe
     return this._image;
   }
   set image(value: IImage | string | null) {
-    if (value) {
+    if (typeof value === 'string') 
       value = ImageAndroid.createImageFromPath(value); //IDE requires this implementation.
-    }
-    if (value === null || value instanceof ImageAndroid) {
+      
       this._image = value;
-      if (!this.nativeObject || (this.nativeObject && !this.imageButton)) {
+      if (!this.nativeObject || !this.imageButton) {
         this.nativeObject = this.createNativeImageButton();
         this.updateAccessibilityLabel(this._accessibilityLabel);
       }
-      if (this.nativeObject && this.imageButton) {
         if (this._image) {
           const imageCopy = (this._image as ImageAndroid).nativeObject.mutate();
           this.nativeObject.setImageDrawable(imageCopy);
@@ -149,10 +147,6 @@ export default class HeaderBarItemAndroid extends NativeMobileComponent<any, IHe
             this.title = this._title;
           }
         }
-      }
-    } else {
-      throw new TypeError('image must be ImageAndroid instance or image path should be given properly.');
-    }
   }
   get searchView() {
     return this._searchView;
@@ -208,7 +202,8 @@ export default class HeaderBarItemAndroid extends NativeMobileComponent<any, IHe
   }
   set accessibilityLabel(value: string) {
     this._accessibilityLabel = value;
-    this.updateAccessibilityLabel(this._accessibilityLabel);
+    if(this.nativeObject)
+        this.updateAccessibilityLabel(this._accessibilityLabel);
   }
   get itemColor() {
     return this._itemColor;
@@ -247,6 +242,7 @@ export default class HeaderBarItemAndroid extends NativeMobileComponent<any, IHe
   titleSetterHelper(title: string) {
     const itemTitle = title ? title : '';
     if (!this.nativeObject || this.imageButton) {
+
       this.nativeObject = new NativeTextButton(activity);
       this.updateAccessibilityLabel(this._accessibilityLabel);
       this.nativeObject.setText(itemTitle);
@@ -259,7 +255,7 @@ export default class HeaderBarItemAndroid extends NativeMobileComponent<any, IHe
         itemView.getChildCount() && itemView.removeAllViews();
         itemView.addView(this.nativeObject);
       }
-    } else if (!this.imageButton) {
+    } else {
       this.nativeObject.setText(itemTitle);
       this.color = this._color;
     }
@@ -323,7 +319,7 @@ export default class HeaderBarItemAndroid extends NativeMobileComponent<any, IHe
 
   updateColor(color: IColor) {
     if (this.nativeObject && color instanceof ColorAndroid && !this._customView) {
-      if (this.image || this.android.systemIcon) {
+      if (this.imageButton) {
         const imageCopy = this.nativeObject.getDrawable().mutate();
         imageCopy.setColorFilter(color.nativeObject, NativePorterDuff.Mode.SRC_IN);
         this.nativeObject.setImageDrawable(imageCopy);
