@@ -607,9 +607,7 @@ export default class PageAndroid<TEvent extends string = PageEvents, TNative = a
               }
               customViewContainer.addChild(item.customView as FlexLayoutAndroid);
               item.nativeObject = customViewContainer.nativeObject;
-            } else if (item.image instanceof ImageAndroid && (item.image?.nativeObject || (item.android as any).systemIcon)) {
-              item.nativeObject = new NativeImageButton(AndroidConfig.activity);
-            } else {
+            } else if(!item.nativeObject){ //create text button as default.
               item.nativeObject = new NativeTextButton(AndroidConfig.activity);
             }
 
