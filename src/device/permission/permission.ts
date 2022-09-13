@@ -270,10 +270,19 @@ export namespace Permissions {
     BLUETOOTH = 'android.permission.BLUETOOTH',
     /**
      * Required to be able to connect to paired Bluetooth devices.
+     * 
      * @property BLUETOOTH_CONNECT
      * @readonly
      */
-    BLUETOOTH_CONNECT = 'android.permission.BLUETOOTH_CONNECT'
+    BLUETOOTH_CONNECT = 'android.permission.BLUETOOTH_CONNECT',
+    /**
+     * Allows the app to post notifications.
+     * Available on API Level 33 (Android 13) and above
+     * 
+     * @property POST_NOTIFICATIONS
+     * @readonly
+     */
+    POST_NOTIFICATIONS = 'android.permission.POST_NOTIFICATIONS'
   }
   export const LOCATION = 'LOCATION';
   export const CAMERA = 'CAMERA';
