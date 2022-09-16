@@ -110,7 +110,7 @@ export default class PageAndroid<TEvent extends string = PageEvents, TNative = a
   private _headerBarColor: IColor;
   private _headerBarImage: IImage;
   private _titleLayout?: HeaderBar['titleLayout'];
-  private _layout: HeaderBar['layout'];
+  private _layout?: HeaderBar['layout'];
   private _onBackButtonPressed: IPage['android']['onBackButtonPressed'];
   private _transitionViewsCallback: IPage['android']['transitionViewsCallback'];
   private _borderVisibility: HeaderBar['borderVisibility'];
