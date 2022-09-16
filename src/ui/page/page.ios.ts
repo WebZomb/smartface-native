@@ -43,6 +43,7 @@ export default class PageIOS<TEvent extends string = PageEvents, TNative extends
   private _safeAreaPaddingObject: { top: number; bottom: number; left: number; right: number };
   private _transitionViews: IPage['transitionViews'];
   private _titleView: HeaderBar['titleLayout'];
+  private _layout: HeaderBar['layout'];
   private _presentationStyle: number;
   private _largeTitleDisplayMode: number;
   private _leftItem: any;
@@ -374,6 +375,26 @@ export default class PageIOS<TEvent extends string = PageEvents, TNative extends
       },
       set title(value: HeaderBar['title']) {
         self.nativeObject.navigationItem.title = value;
+      },
+      get layout(): HeaderBar['layout'] {
+        return self._layout;
+      },
+      set layout(value: HeaderBar['layout']) {
+        if (typeof value === 'object') {
+          self._layout = value;
+          self._layout.applyLayout();
+
+          // These calls may need for different cases.
+          if (self.checkIfSearchviewIsSubview(self._layout.nativeObject)) {
+            //Workaround Bug : IOS-2707
+            self._layout.nativeObject.layoutIfNeeded();
+          }
+          // _titleView.nativeObject.translatesAutoresizingMaskIntoConstraints = true;
+          self._layout.nativeObject.sizeToFit();
+          self.nativeObject.navigationItem.titleView = self._layout.nativeObject;
+        } else {
+          self.nativeObject.navigationItem.titleView = undefined;
+        }
       },
       get titleLayout(): HeaderBar['titleLayout'] {
         return self._titleView;
