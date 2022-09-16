@@ -31,6 +31,8 @@ import LayoutParams from '../../util/Android/layoutparams';
 import AndroidUnitConverter from '../../util/Android/unitconverter';
 import copyObjectPropertiesWithDescriptors from '../../util/copyObjectPropertiesWithDescriptors';
 import SystemServices from '../../util/Android/systemservices';
+import ViewAndroid from '../view/view.android';
+
 
 const PorterDuff = requireClass('android.graphics.PorterDuff');
 const NativeView = requireClass('android.view.View');
@@ -44,6 +46,8 @@ const ToolbarLayoutParams = requireClass('androidx.appcompat.widget.Toolbar$Layo
 const NativeImageButton = requireClass('android.widget.ImageButton');
 const NativeTextButton = requireClass('android.widget.Button');
 const NativeRelativeLayout = requireClass('android.widget.RelativeLayout');
+const NativeYogaLayout = requireClass('com.facebook.yoga.android.YogaLayout');
+
 
 enum PageOrientationAndroid {
   PORTRAIT = 1,
@@ -106,6 +110,7 @@ export default class PageAndroid<TEvent extends string = PageEvents, TNative = a
   private _headerBarColor: IColor;
   private _headerBarImage: IImage;
   private _titleLayout?: HeaderBar['titleLayout'];
+  private _layout: HeaderBar['layout'];
   private _onBackButtonPressed: IPage['android']['onBackButtonPressed'];
   private _transitionViewsCallback: IPage['android']['transitionViewsCallback'];
   private _borderVisibility: HeaderBar['borderVisibility'];
@@ -459,6 +464,15 @@ export default class PageAndroid<TEvent extends string = PageEvents, TNative = a
           self.toolbar.addView(value.nativeObject, toolbarParams);
           self._titleLayout = value;
         }
+      },
+      get layout(): HeaderBar['layout']{
+        return self._layout;
+      },
+      set layout(view: HeaderBar['layout']) {
+        self._layout = view;
+        const flexlayout = new FlexLayoutAndroid();
+        flexlayout.addChild(view  as ViewAndroid);
+        self.toolbar.addView(flexlayout.nativeObject, new NativeYogaLayout.LayoutParams(-1, -1));
       },
       get borderVisibility(): HeaderBar['borderVisibility'] {
         return self._borderVisibility;

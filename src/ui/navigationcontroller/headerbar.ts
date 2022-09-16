@@ -9,12 +9,14 @@ import { IColor } from '../color/color';
 import { IFont } from '../font/font';
 import { IView } from '../view/view';
 
+
 export class HeaderBar extends NativeMobileComponent<__SF_UINavigationBar, IHeaderBar> implements IHeaderBar {
   appearance?: __SF_UINavigationBarAppearance;
   navigationController?: NavigationControllerIOS;
   leftItemEnabled: boolean;
   titleLayout?: IView;
   title: string;
+  layout: IView;
   private _transparent: boolean;
   private _transparentEmptyImage: __SF_UIImage;
   private _titleColor: IColor;
