@@ -16,7 +16,7 @@ export class HeaderBar extends NativeMobileComponent<__SF_UINavigationBar, IHead
   leftItemEnabled: boolean;
   titleLayout?: IView;
   title: string;
-  layout: IView;
+  layout?: IView;
   private _transparent: boolean;
   private _transparentEmptyImage: __SF_UIImage;
   private _titleColor: IColor;
