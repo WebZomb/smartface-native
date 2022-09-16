@@ -470,10 +470,10 @@ export default class PageAndroid<TEvent extends string = PageEvents, TNative = a
       },
       set layout(view: HeaderBar['layout']) {
         self._layout = view;
-        const flexlayout = new FlexLayoutAndroid();
-        flexlayout.addChild(view  as FlexLayoutAndroid);
+        const wrapperLayout = new FlexLayoutAndroid();
+        wrapperLayout.addChild(view  as FlexLayoutAndroid);
         self.headerBar.android.padding = {left: 0, right: 16 };
-        self.toolbar.addView(flexlayout.nativeObject, new NativeYogaLayout.LayoutParams(-1, -1));
+        self.toolbar.addView(wrapperLayout.nativeObject, new NativeYogaLayout.LayoutParams(-1, -1));
       },
       get borderVisibility(): HeaderBar['borderVisibility'] {
         return self._borderVisibility;
