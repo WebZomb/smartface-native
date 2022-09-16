@@ -11,6 +11,7 @@ import FlexLayoutIOS from '../flexlayout/flexlayout.ios';
 import { IFlexLayout } from '../flexlayout/flexlayout';
 import StatusBar from '../../application/statusbar';
 import { YGUnit } from '../shared/ios/yogaenums';
+import ScreenIOS from '../../device/screen/screen.ios';
 
 const NativeOrientation = {
   PORTRAIT: [PageOrientation.PORTRAIT],
@@ -380,6 +381,11 @@ export default class PageIOS<TEvent extends string = PageEvents, TNative extends
         return self._layout;
       },
       set layout(value: HeaderBar['layout']) {
+        if (value) {
+          value.width = ScreenIOS.height - 32;
+          value.height = self.parentController.headerBar?.height ?? 0;
+        }
+
         if (typeof value === 'object') {
           self._layout = value;
           self._layout.applyLayout();
