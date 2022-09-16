@@ -471,7 +471,8 @@ export default class PageAndroid<TEvent extends string = PageEvents, TNative = a
       set layout(view: HeaderBar['layout']) {
         self._layout = view;
         const flexlayout = new FlexLayoutAndroid();
-        flexlayout.addChild(view  as ViewAndroid);
+        flexlayout.addChild(view  as FlexLayoutAndroid);
+        self.headerBar.android.padding = {left: 0, right: 16 };
         self.toolbar.addView(flexlayout.nativeObject, new NativeYogaLayout.LayoutParams(-1, -1));
       },
       get borderVisibility(): HeaderBar['borderVisibility'] {
@@ -513,7 +514,7 @@ export default class PageAndroid<TEvent extends string = PageEvents, TNative = a
         if (TypeUtil.isBoolean(value)) {
           self._leftItemEnabled = value;
           self.actionBar.setDisplayHomeAsUpEnabled(self._leftItemEnabled);
-        }
+        } 
       },
       get height(): number {
         const resources = AndroidConfig.activityResources;

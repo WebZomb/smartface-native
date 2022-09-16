@@ -5,6 +5,7 @@ import { IView } from '../view/view';
 import { LargeTitleDisplayMode } from '../page/page';
 import { IImage } from '../image/image';
 import { IHeaderBarItem } from '../headerbaritem/headerbaritem';
+import { IFlexLayout } from '../flexlayout/flexlayout';
 
 /**
  * @class UI.HeaderBar
@@ -62,7 +63,7 @@ type IHeaderBar = {
    * @ios
    * @since 5.0.4
    */
-  layout?: IView<any>
+  layout?: IFlexLayout<any>
   /**
    * Defines the opacity of a view. The value of this property is a float number between 0.0 and 1.0. For iOS, you should access this property from page.parentController.
    * 0 represents view is completely transparent and 1 represents view is completely opaque.
