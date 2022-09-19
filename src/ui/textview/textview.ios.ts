@@ -192,7 +192,7 @@ export default class TextViewIOS<TEvent extends TextViewEvents, TProps extends I
     const paragraphStyle = Invocation.invokeInstanceMethod(paragraphAlloc!, 'init', [], 'NSObject') as __SF_NSOBject;
     const argLineSpacing = new Invocation.Argument({
       type: 'CGFloat',
-      value: this.lineSpacing
+      value: this.lineSpacing || 0
     });
     Invocation.invokeInstanceMethod(paragraphStyle, 'setLineSpacing:', [argLineSpacing]);
 
