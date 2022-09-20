@@ -225,7 +225,7 @@ export namespace Permissions {
      * Allows to read from external storage.
      * If you granted {@link Application.Android.Permissions#WRITE_EXTERNAL_STORAGE WRITE_EXTERNAL_STORAGE} permission,
      * you don't need this to granted this permission.
-     * Available on API Level 32 (Android 12) and below.
+     * Available on API Level 32 (Android 12) and below. You can use granular media permissions (READ_MEDIA_AUDIO, READ_MEDIA_IMAGE, READ_MEDIA_VIDEO) on API Level 33 (Android 13) and above.
      *
      * @property READ_EXTERNAL_STORAGE
      * @readonly
