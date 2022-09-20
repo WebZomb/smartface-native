@@ -382,7 +382,7 @@ export default class PageIOS<TEvent extends string = PageEvents, TNative extends
       },
       set layout(value: HeaderBar['layout']) {
         if (value) {
-          value.width = ScreenIOS.height - 32;
+          value.width = ScreenIOS.width - 32;
           value.height = self.parentController.headerBar?.height ?? 0;
         }
 
