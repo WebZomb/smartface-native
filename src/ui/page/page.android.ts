@@ -612,7 +612,10 @@ export default class PageAndroid<TEvent extends string = PageEvents, TNative = a
             itemView = item.searchView.nativeObject;
           } else {
             const badgeButtonLayoutParams = new NativeRelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-            const nativeBadgeContainer = new NativeRelativeLayout(AndroidConfig.activity);
+            const nativeBadgeContainer = item.nativeBadgeContainer || new NativeRelativeLayout(AndroidConfig.activity);
+            if(nativeBadgeContainer) {
+              nativeBadgeContainer.removeAllViews();
+            }
             nativeBadgeContainer.setLayoutParams(badgeButtonLayoutParams);
             if (item.customView) {
               const customViewContainer = new FlexLayoutAndroid();
