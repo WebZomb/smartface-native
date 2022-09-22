@@ -469,11 +469,14 @@ export default class PageAndroid<TEvent extends string = PageEvents, TNative = a
         return self._layout;
       },
       set layout(view: HeaderBar['layout']) {
+        if (self._layout) {
+            self.toolbar.removeView(self._layout.nativeObject);
+        }
         self._layout = view;
-        const wrapperLayout = new FlexLayoutAndroid();
-        wrapperLayout.addChild(view  as FlexLayoutAndroid);
-        self.headerBar.android.padding = {left: 0, right: 16 };
-        self.toolbar.addView(wrapperLayout.nativeObject, new NativeYogaLayout.LayoutParams(-1, -1));
+        if(self._layout){
+            self.headerBar.android.padding = {left: 0, right: 16 };
+            self.toolbar.addView(self._layout.nativeObject, new NativeYogaLayout.LayoutParams(-1, -1));
+        }
       },
       get borderVisibility(): HeaderBar['borderVisibility'] {
         return self._borderVisibility;
