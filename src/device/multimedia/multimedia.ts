@@ -540,7 +540,7 @@ export declare class MultimediaBase {
    *
    * @param {Object} params Object describing parameters for the function.
    * @param {UI.Page} params.page
-   * @param {Device.Multimedia.Type} params.type Data type.
+   * @param {Device.Multimedia.Type} [params.type=Device.Multimedia.Type.IMAGE] Data type.
    * @param {Boolean} params.allowsEditing opens editing screen of selected content.
    * @param {Object} params.aspectRatio This property affects only on android.
    * @param {Number} params.aspectRatio.x The X value of aspect ratio of cropping window
