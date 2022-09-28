@@ -28,7 +28,7 @@ export default class TextViewIOS<TEvent extends TextViewEvents, TProps extends I
     return new __SF_UITextView();
   }
   constructor(params: Partial<ITextView> = {}) {
-    super();
+    super(params as any);
 
     //TODO: Look at it after Cenk is done with Scrollable stuff
     // UIScrollViewInheritance.addPropertiesAndMethods.call(this);
