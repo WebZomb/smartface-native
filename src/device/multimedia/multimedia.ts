@@ -347,12 +347,12 @@ export declare class MultimediaBase {
   static readonly CameraDevice: typeof CameraDevice;
   /**
    * These enums used to specify quality of video
+   * Warning: Not recommended because it doesn't work on every Android device.
    *
    * @property {Object} VideoQuality
    * @since 4.3.0
    * @android
    * @ios
-   *
    */
   static readonly VideoQuality: {
     /**
@@ -517,7 +517,7 @@ export declare class MultimediaBase {
    * @param {Object} params Object describing parameters for the function.
    * @param {UI.Page} params.page
    * @param {Number} params.maximumDuration maximum allowed record duration in seconds
-   * @param {Device.Multimedia.VideoQuality} params.videoQuality used to control the quality of a recorded video
+   * @param {Device.Multimedia.VideoQuality} params.videoQuality used to control the quality of a recorded video. Warning: Not recommended because it doesn't work on every Android device.
    * @param {Object} params.ios iOS specific argument
    * @param {Device.Multimedia.iOS.CameraFlashMode} params.ios.cameraFlashMode The flash mode used by the active camera.The default value is Multimedia.iOS.CameraFlashMode.AUTO.
    * @param {Device.Multimedia.iOS.CameraDevice} params.ios.cameraDevice Constants that specify the camera to use for image or movie capture.The default value is Multimedia.iOS.CameraDevice.REAR.
