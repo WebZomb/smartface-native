@@ -91,8 +91,8 @@ export default class PageIOS<TEvent extends string = PageEvents, TNative extends
     super.preConstruct(params);
     this.headerBarProperties();
   }
-  onLoad(): void {}
-  onShow(): void {}
+  onLoad(): void { }
+  onShow(): void { }
   onHide: () => void;
   onOrientationChange: (e: { orientation: PageOrientation }) => void;
 
@@ -315,6 +315,17 @@ export default class PageIOS<TEvent extends string = PageEvents, TNative extends
       this.emit('orientationChange', callbackParam);
       this.onOrientationChange?.(callbackParam);
     };
+
+    this.nativeObject.viewWillTransitionCompletion = () => {
+      if (this._layout && this.headerBar) {
+        this._layout.width = this.nativeObject.navigationController.navigationBar.frame.width - 32
+        this._layout.height = this.nativeObject.navigationController.navigationBar.frame.height
+        this.headerBar.layout = this._layout;
+
+      }
+
+    }
+
     this.nativeObject.onLoad = () => {
       this.onLoad?.();
       this.emit('load');
@@ -370,6 +381,7 @@ export default class PageIOS<TEvent extends string = PageEvents, TNative extends
    */
   private headerBarProperties() {
     const self = this;
+
     const headerBar = {
       get title(): HeaderBar['title'] {
         return self.nativeObject.navigationItem.title;
