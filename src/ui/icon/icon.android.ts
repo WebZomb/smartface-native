@@ -14,13 +14,14 @@ export default class IconAndroid extends LabelAndroid implements IIcon {
   constructor(params: Partial<IIcon> = {}) {
     super(params);
     this.adjustFontSizeToFit = true;
-    if(params?.font instanceof FontAndroid) {
+    if (params?.font instanceof FontAndroid) {
       this.font = params.font;
+    } else {
+      this.font = FontAndroid.create('FontAwesome5FreeRegular', 16, FontStyle.NORMAL);
     }
   }
   protected preConstruct(params: Partial<IIcon> = {}) {
     super.preConstruct(params);
-    this.font = FontAndroid.create('FontAwesome5FreeRegular', 16, FontStyle.NORMAL);
   }
   get glyph(): string {
     return this._glyph;
@@ -49,5 +50,4 @@ export default class IconAndroid extends LabelAndroid implements IIcon {
     this.dirty();
     this.nativeObject.setText(String(this._actualText));
   }
-  
 }
