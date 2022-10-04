@@ -13,7 +13,6 @@ export default class IconAndroid extends LabelAndroid implements IIcon {
   private _actualText: string;
   constructor(params: Partial<IIcon> = {}) {
     super(params);
-    this.adjustFontSizeToFit = true;
     if (params?.font instanceof FontAndroid) {
       this.font = params.font;
     } else {
