@@ -33,7 +33,7 @@ export interface ReceivedNotificationParams {
 
 export interface ApplicationIOSProps {
   /**
-   * The event is called when a user taps a universal link.
+   * The event is called when a user taps a universal link
    *
    * @event onUserActivityWithBrowsingWeb
    * @param {String} url Universal link.
