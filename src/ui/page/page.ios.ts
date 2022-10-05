@@ -33,6 +33,8 @@ const NativeOrientationMapping = {
   [PageOrientation.AUTOLANDSCAPE]: NativeOrientation.AUTOLANDSCAPE
 };
 
+const NAVIGATIONBAR_WIDTH_OFFSET = 32
+
 export default class PageIOS<TEvent extends string = PageEvents, TNative extends { [key: string]: any } = __SF_UIViewController, TProps extends IPage = IPage>
   extends AbstractPage<TEvent | PageEvents, TNative, TProps>
   implements IPage<TEvent | PageEvents>
@@ -315,11 +317,10 @@ export default class PageIOS<TEvent extends string = PageEvents, TNative extends
       this.emit('orientationChange', callbackParam);
       this.onOrientationChange?.(callbackParam);
     };
-
     this.nativeObject.viewWillTransitionCompletion = () => {
       if (this._layout && this.headerBar) {
-        this._layout.width = this.nativeObject.navigationController.navigationBar.frame.width - 32
-        this._layout.height = this.nativeObject.navigationController.navigationBar.frame.height
+        this._layout.width = this.nativeObject.navigationController.navigationBar.frame.width - NAVIGATIONBAR_WIDTH_OFFSET;
+        this._layout.height = this.nativeObject.navigationController.navigationBar.frame.height;
         this.headerBar.layout = this._layout;
 
       }
