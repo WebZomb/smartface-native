@@ -333,13 +333,8 @@ export default class SearchViewIOS<TEvent extends string = SearchViewEvents> ext
     this._borderWidth = value;
     // Native object's layer must be updated!
     // Yoga's borderWidth property only effects positioning of its child view.
-    if (this._borderWidth === 0) {
-      this.nativeObject.layer.borderWidth = 1;
-      this.nativeObject.yoga.borderWidth = 1;
-    } else {
-      this.nativeObject.layer.borderWidth = value;
-      this.nativeObject.yoga.borderWidth = value;
-    }
+    this.nativeObject.layer.borderWidth = value;
+    this.nativeObject.yoga.borderWidth = value;
   }
 
   addToHeaderBar(page: Page): void {
