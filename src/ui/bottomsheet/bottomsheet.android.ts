@@ -27,7 +27,6 @@ export default class BottomSheetAndroid<TEvent extends string = BottomSheetEvent
         this._isShowing = false;
         this._borderRadius = 0;
         this._detents = ["medium"];
-        this._contentWrapper = this.createContentWrapper();
         super.preConstruct(params);
     }
 
@@ -39,6 +38,7 @@ export default class BottomSheetAndroid<TEvent extends string = BottomSheetEvent
     private _detents: ("medium" | "large")[];
 
     show(): void {
+        if (this._isShowing) return;
         this._isShowing = true;
         this.nativeObject.show(AndroidConfig.activity.getSupportFragmentManager(), BOTTOM_SHEET_FRAGMENT_MANAGER_TAG);
     }
@@ -80,17 +80,22 @@ export default class BottomSheetAndroid<TEvent extends string = BottomSheetEvent
 
     onDismissed: () => void;
 
-    private createContentWrapper() {
-        return new FlexLayoutAndroid({
+    private initializeContentWrapper() {
+        this._contentWrapper && this._contentWrapper.removeAll();
+        this._contentWrapper = new FlexLayoutAndroid({
             backgroundColor: ColorAndroid.WHITE,
             masksToBounds: true,
+            borderTopLeftRadius: this._borderRadius,
+            borderTopRightRadius: this._borderRadius,
         });
+        this._view && this._contentWrapper.addChild(this._view);
+        return this._contentWrapper;
     }
 
     private createModalBottomSheet() {
         const callbacks = {
             onCreateView: (inflater, container, savedInstanceState) => {
-                return this._contentWrapper.nativeObject;
+                return this.initializeContentWrapper().nativeObject;
             },
             onDialogShow: (dialog) => {
                 const bottomSheetFrameLayout = dialog.findViewById(NativeMaterialR.id.design_bottom_sheet);
@@ -115,18 +120,18 @@ export default class BottomSheetAndroid<TEvent extends string = BottomSheetEvent
             case "medium":
                 this._bottomSheetBehavior.setState(NativeBottomSheetBehavior.STATE_EXPANDED);
                 this._bottomSheetBehavior.setSkipCollapsed(true);
-                this._contentWrapper.height = Screen.height / 2;
+                this._contentWrapper && (this._contentWrapper.height = Screen.height / 2);
                 break;
             case "both":
                 this._bottomSheetBehavior.setState(NativeBottomSheetBehavior.STATE_HALF_EXPANDED);
                 this._bottomSheetBehavior.setFitToContents(false);
                 this._bottomSheetBehavior.setSkipCollapsed(true);
-                this._contentWrapper.height = Screen.height;
+                this._contentWrapper && (this._contentWrapper.height = Screen.height);
                 break;
             case "large":
                 this._bottomSheetBehavior.setState(NativeBottomSheetBehavior.STATE_EXPANDED);
                 this._bottomSheetBehavior.setSkipCollapsed(true);
-                this._contentWrapper.height = Screen.height;
+                this._contentWrapper && (this._contentWrapper.height = Screen.height);
                 break;
             default:
                 break;
@@ -134,11 +139,13 @@ export default class BottomSheetAndroid<TEvent extends string = BottomSheetEvent
     }
 
     private updateView(view: IView) {
+        if (!this._contentWrapper) return;
         this._contentWrapper.removeAll();
         this._contentWrapper.addChild(view);
     }
 
     private updateBorderRadius(value: number) {
+        if (!this._contentWrapper) return;
         this._contentWrapper.borderTopLeftRadius = value;
         this._contentWrapper.borderTopRightRadius = value;
     }
