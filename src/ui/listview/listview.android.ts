@@ -338,6 +338,12 @@ export default class ListViewAndroid<TEvent extends string = ListViewEvents> ext
         } else {
           self.nativeInner.setJsCallbacks(null);
         }
+      },
+      get nestedScrollingEnabled() {
+        return self.nativeObject.isNestedScrollingEnabled();
+      },
+      set nestedScrollingEnabled(nestedScrollingEnabled: boolean) {
+        self.nativeObject.setNestedScrollingEnabled(nestedScrollingEnabled);
       }
     };
   }
